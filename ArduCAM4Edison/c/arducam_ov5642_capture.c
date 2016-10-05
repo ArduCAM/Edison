@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <time.h>
-#include <wiringPiSPI.h>
+#include <mraa.h>
 #include <unistd.h>
 #include "arducam.h"
 #define OV5642_CHIPID_HIGH 0x300a

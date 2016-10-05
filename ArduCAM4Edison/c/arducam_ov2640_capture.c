@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <time.h>
-#include <wiringPiSPI.h>
+#include <mraa.h>
 #include <unistd.h>
 #include "arducam.h"
 #define OV2640_CHIPID_HIGH  0x0A

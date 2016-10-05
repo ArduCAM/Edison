@@ -63,9 +63,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <wiringPi.h>
-
-#include <wiringPiI2C.h>
+#include <mraa.h>
 
 #define regtype volatile uint8_t
 #define regsize uint8_t
