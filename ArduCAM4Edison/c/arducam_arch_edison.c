@@ -10,11 +10,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include <linux/i2c-dev.h>
-#include <wiringPiSPI.h>
+#include <mraa.h>
 #include <unistd.h>
 #include "arducam.h"
 #include "arducam_arch.h"
-#include <wiringPi.h>
 
 #define	SPI_ARDUCAM_SPEED	1000000
 #define	SPI_ARDUCAM		      0
@@ -34,14 +33,20 @@ bool arducam_spi_init(int SPI_CS)
 }
 bool wiring_init(void)
 {
-	wiringPiSetup();
-	int spi = wiringPiSPISetup(SPI_ARDUCAM, SPI_ARDUCAM_SPEED);   
+    mraa_init();
+    mraa_spi_context spi;
+    spi = mraa_spi_init(0);
+    unsigned int response = 0;
+    printf("Now Attempting to READ RTD Registers over SPI\n");
+    uint8_t data = 0x00;
+    uint8_t *recv;
 	return spi != -1;
 }
 
 bool arducam_i2c_init(uint8_t sensor_addr)
 {
-	FD = wiringPiI2CSetup(sensor_addr);
+	mraa_i2c_context FD = mraa_i2c_init(0);
+	mraa_i2c_address(FD, sensor_addr);
 	return FD != -1;
 }
 
@@ -52,8 +57,8 @@ void arducam_delay_ms(uint32_t delay)
 
 void arducam_spi_write(uint8_t address, uint8_t value, int SPI_CS)
 {
-	uint8_t spiData [2] ;
-	spiData [0] = address ;
+  uint8_t spiData [2] ;
+  spiData [0] = address ;
   spiData [1] = value ;
   if( SPI_CS < 0 )
 	 wiringPiSPIDataRW (SPI_ARDUCAM, spiData, 2) ;
@@ -61,7 +66,7 @@ void arducam_spi_write(uint8_t address, uint8_t value, int SPI_CS)
 	 	{
 	 		
 	 		digitalWrite(SPI_CS,LOW);
-	 		wiringPiSPIDataRW (SPI_ARDUCAM, spiData, 2) ;
+	 		mraa_spi_write_buf_word(SPI_ARDUCAM, spiData, 2) ;
 	 		digitalWrite(SPI_CS,HIGH);
 	 	}
 }
@@ -77,7 +82,7 @@ uint8_t arducam_spi_read(uint8_t address,int SPI_CS)
   	else
   		{
   			digitalWrite(SPI_CS,LOW);
-	 		  wiringPiSPIDataRW (SPI_ARDUCAM, spiData, 2) ;
+	 		  mraa_spi_write_buf_word(SPI_ARDUCAM, spiData, 2) ;
 	 		  digitalWrite(SPI_CS,HIGH);
   		}
   	return spiData[1];
@@ -86,21 +91,21 @@ uint8_t arducam_spi_read(uint8_t address,int SPI_CS)
 
 void arducam_spi_transfers(uint8_t *buf, uint32_t size)
 {
-	 wiringPiSPIDataRW (SPI_ARDUCAM, buf, size) ;
+	 mraa_spi_write_buf_word(SPI_ARDUCAM, buf, size) ;
 }
 
 void arducam_spi_transfer(uint8_t data)
 {
 	uint8_t spiData [1] ;
 	 spiData [0] = data ;
-	 wiringPiSPIDataRW (SPI_ARDUCAM, spiData, 1) ;
+	 mraa_spi_write_buf_word (SPI_ARDUCAM, spiData, 1) ;
 }
 
 uint8_t arducam_i2c_write(uint8_t regID, uint8_t regDat)
 {
 	if(FD != -1)
 	{
-		wiringPiI2CWriteReg8(FD,regID,regDat);
+		mraa_i2c_write(FD,regID,regDat);
 		return(1);
 	}
 	return 0;
