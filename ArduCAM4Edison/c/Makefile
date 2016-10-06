@@ -1,31 +1,41 @@
-all :  ov2640_capture ov2640_4cams_capture ov5642_capture ov5642_4cams_capture
+all : OV2640_Playback	OV3640_Playback	OV5642_Playback	OV7670_Playback OV2640_DigitalCamera	OV5642_DigitalCamera
 
-objects = arducam.o arducam_arch_edison.o
+objects = DefaultFonts_SPI.o UTFT_SPI.o BBBCAM.o
 
-
-ov2640_capture : $(objects) arducam_ov2640_capture.o 
-	gcc -o ov2640_capture $(objects) arducam_ov2640_capture.o -lmraa -Wall
-ov2640_4cams_capture : $(objects) arducam_ov2640_4cams_capture.o 
-	gcc -o ov2640_4cams_capture $(objects) arducam_ov2640_4cams_capture.o -lmraa -Wall
-ov5642_capture : $(objects) arducam_ov5642_capture.o 
-	gcc -o ov5642_capture $(objects) arducam_ov5642_capture.o -lmraa -Wall
-ov5642_4cams_capture : $(objects) arducam_ov5642_4cams_capture.o 
-	gcc -o ov5642_4cams_capture $(objects) arducam_ov5642_4cams_capture.o -lmraa -Wall
+OV2640_Playback : $(objects) BBBCAM_OV2640_Playback.o 
+	gcc -o OV2640_Playback $(objects) BBBCAM_OV2640_Playback.o
+OV3640_Playback : $(objects) BBBCAM_OV3640_Playback.o 
+	gcc -o OV3640_Playback $(objects) BBBCAM_OV3640_Playback.o
+OV5642_Playback : $(objects) BBBCAM_OV5642_Playback.o 
+	gcc -o OV5642_Playback $(objects) BBBCAM_OV5642_Playback.o
+OV7670_Playback : $(objects) BBBCAM_OV7670_Playback.o 
+	gcc -o OV7670_Playback $(objects) BBBCAM_OV7670_Playback.o
 	
-arducam.o : arducam.c
-	gcc -c arducam.c -lmraa -Wall
-arducam_arch_edison.o : arducam_arch_edison.c
-	gcc -c arducam_arch_edison.c -lmraa -Wall
+OV2640_DigitalCamera : $(objects) BBBCAM_OV2640_DigitalCamera.o 
+	gcc -o OV2640_DigitalCamera $(objects) BBBCAM_OV2640_DigitalCamera.o
+OV5642_DigitalCamera : $(objects) BBBCAM_OV5642_DigitalCamera.o 
+	gcc -o OV5642_DigitalCamera $(objects) BBBCAM_OV5642_DigitalCamera.o
 
-
-arducam_ov2640_capture.o : arducam_ov2640_capture.c
-	gcc -c arducam_ov2640_capture.c -lmraa -Wall
-arducam_ov2640_4cams_capture.o : arducam_ov2640_4cams_capture.c
-	gcc -c arducam_ov2640_4cams_capture.c -lmraa -Wall
-arducam_ov5642_capture.o : arducam_ov5642_capture.c
-	gcc -c arducam_ov5642_capture.c -lmraa -Wall
-arducam_ov5642_4cams_capture.o : arducam_ov5642_4cams_capture.c
-	gcc -c arducam_ov5642_4cams_capture.c -lmraa -Wall
-
+DefaultFonts_SPI.o : DefaultFonts_SPI.c
+	gcc -c DefaultFonts_SPI.c
+UTFT_SPI.o : UTFT_SPI.c
+	gcc -c UTFT_SPI.c
+BBBCAM.o : BBBCAM.c
+	gcc -c BBBCAM.c 
+BBBCAM_OV2640_Playback.o : BBBCAM_OV2640_Playback.c
+	gcc -c BBBCAM_OV2640_Playback.c
+BBBCAM_OV3640_Playback.o : BBBCAM_OV3640_Playback.c
+	gcc -c BBBCAM_OV3640_Playback.c
+BBBCAM_OV5642_Playback.o : BBBCAM_OV5642_Playback.c
+	gcc -c BBBCAM_OV5642_Playback.c
+BBBCAM_OV7670_Playback.o : BBBCAM_OV7670_Playback.c
+	gcc -c BBBCAM_OV7670_Playback.c
+	
+BBBCAM_OV2640_DigitalCamera.o : BBBCAM_OV2640_DigitalCamera.c
+	gcc -c BBBCAM_OV2640_DigitalCamera.c
+BBBCAM_OV5642_DigitalCamera.o : BBBCAM_OV5642_DigitalCamera.c
+	gcc -c BBBCAM_OV5642_DigitalCamera.c
+	
 clean : 
-	rm -f  ov2640_capture ov2640_4cams_capture ov5642_capture ov5642_4cams_capture $(objects) *.o
+	rm OV2640_Playback OV3640_Playback OV5642_Playback OV7670_Playback OV2640_DigitalCamera OV5642_DigitalCamera 
+	rm *.o

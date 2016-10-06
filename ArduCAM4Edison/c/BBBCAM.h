@@ -210,7 +210,7 @@ static char *i2cdev1 = "/dev/i2c-1";
 
 //SPI handle
 int spi0;
-static const char *spidev0 = "/dev/spidev1.0"; 
+static const char *spidev0 = "/dev/spidev5.1";
 static uint8_t mode=0;
 static uint8_t bits = 8;
 static uint16_t delay;

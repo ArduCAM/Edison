@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <time.h>
-#include "UTFT_SPI.h"
 #include "BBBCAM.h"
 
 #define BOOL int
@@ -28,7 +27,6 @@ void setup()
   uint8_t vid,pid;
   uint8_t temp;
 
-  UTFT();
   ArduCAM(OV2640);
   printf("ArduCAM Start!\n");
 
