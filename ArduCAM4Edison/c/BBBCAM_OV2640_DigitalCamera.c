@@ -42,13 +42,11 @@ void setup()
   //Change MCU mode
   write_reg(ARDUCHIP_MODE, 0x00);
 
-  InitLCD();
-
   //Check if the camera module type is OV2640
   rdSensorReg8_8(OV2640_CHIPID_HIGH, &vid);
-  //printf("vid is : %x",vid);
+  printf("vid is : %x",vid);
   rdSensorReg8_8(OV2640_CHIPID_LOW, &pid);
-  //printf("   pid is : %x\n",pid);
+  printf("   pid is : %x\n",pid);
   if((vid != 0x26) || (pid != 0x42))
   	printf("Can't find OV2640 module!\n");
   else
@@ -99,7 +97,6 @@ int main(void)
 				if(!(temp & VSYNC_MASK))				 			//New Frame is coming
 				{
 					write_reg(ARDUCHIP_MODE, 0x00);    		//Switch to MCU
-					resetXY();
 					write_reg(ARDUCHIP_MODE, 0x01);    		//Switch to CAM
 					while(!(read_reg(ARDUCHIP_TRIG)&0x01)); 	//Wait for VSYNC is gone
 				}

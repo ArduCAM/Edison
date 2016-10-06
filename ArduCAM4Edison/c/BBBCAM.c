@@ -63,7 +63,6 @@
 --------------------------------------*/
 
 #include "BBBCAM.h"
-//#include "UTFT_SPI.h"
 #include "memorysaver.h"
 #include <stdint.h>
 #include <stdlib.h>

@@ -206,7 +206,7 @@ char nowtime[20];
 
 //I2C handle
 int i2c1;
-static char *i2cdev1 = "/dev/i2c-1";
+static char *i2cdev1 = "/dev/i2c-6";
 
 //SPI handle
 int spi0;
