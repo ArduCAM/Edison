@@ -1,6 +1,6 @@
 #ifndef MT9D111_REGS_H
 #define MT9D111_REGS_H
-#include "BBBCAM.h"
+#include "EDISONCAM.h"
 
 /*******************************************************************************************
  #  Display resolution standards #

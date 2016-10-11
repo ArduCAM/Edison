@@ -1,3 +1,5 @@
+
+
 import mraa
 import pprint
 class mySPI(object):
@@ -37,11 +39,20 @@ class mySPI(object):
         return list(miso)
 
 pp = pprint.PrettyPrinter(indent=4)
-rxbuff = bytearray(4)
 
-rxbuff[0] = 0xFF
-rxbuff[1] = 0x00
-rxbuff[2] = 0x3C
-rxbuff[3] = 0x55
-pp.pprint( mySPI(1).writeByte(0x42) )
+rxbuff = bytearray(2)
+rxbuff[0] = 0x04
+rxbuff[1] = 0x01
+#rxbuff[2] = 0x02
+#rxbuff[3] = 0x08
+
+rxbuff2 = bytearray(2)
+rxbuff2[0] = 0x04
+rxbuff2[1] = 0x02
+
+
 pp.pprint( mySPI(1).write(rxbuff) )
+pp.pprint( mySPI(1).write(rxbuff2) )
+pp.pprint( mySPI(1).write(rxbuff) )
+#while True:
+pp.pprint( mySPI(1).writeByte(0x3D ) )

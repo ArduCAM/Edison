@@ -1,6 +1,6 @@
 /*
  ============================================================================
- Name        : BBBCAM_OV2640_DigitalCamera.c
+ Name        : EDISONCAM_OV2640_DigitalCamera.c
  Author      : Lee
  Version     : V1.0
  Copyright   : ArduCAM demo (C)2015 Lee
@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <time.h>
-#include "BBBCAM.h"
+#include "EDISONCAM.h"
 
 #define BOOL int
 #define TRUE 1

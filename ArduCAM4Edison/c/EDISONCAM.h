@@ -1,12 +1,12 @@
  /*
  ============================================================================
- Name        : BBBCAM.h
+ Name        : EDISONCAM.h
  Author      : Lee
  Version     : V1.0
  Copyright   : ArduCAM demo (C)2015 Lee
  Description :
  
-  Beaglebon Black library support for CMOS Image Sensor
+  Edison library support for CMOS Image Sensor
   Copyright (C)2011-2015 ArduCAM.com. All right reserved
 
   Basic functionality of this library are based on the demo-code provided by
