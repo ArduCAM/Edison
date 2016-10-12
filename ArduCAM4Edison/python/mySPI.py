@@ -1,7 +1,6 @@
-
-
 import mraa
 import pprint
+
 class mySPI(object):
     def __init__(self, cs):
         self.spi = mraa.Spi(0)
@@ -40,19 +39,20 @@ class mySPI(object):
 
 pp = pprint.PrettyPrinter(indent=4)
 
-rxbuff = bytearray(2)
-rxbuff[0] = 0x04
-rxbuff[1] = 0x01
-#rxbuff[2] = 0x02
-#rxbuff[3] = 0x08
+HIGH = bytearray(2)
+HIGH[0] = 0x0A
 
-rxbuff2 = bytearray(2)
-rxbuff2[0] = 0x04
-rxbuff2[1] = 0x02
+capture = bytearray(3)
+capture[0] = 0x04
+capture[1] = 0x02
+capture[2] = 0x08
 
+LOW = bytearray(3)
+LOW[0] = 0x0B
 
-pp.pprint( mySPI(1).write(rxbuff) )
-pp.pprint( mySPI(1).write(rxbuff2) )
-pp.pprint( mySPI(1).write(rxbuff) )
-#while True:
-pp.pprint( mySPI(1).writeByte(0x3D ) )
+# Change MCU mode
+pp.pprint( mySPI(1).writeByte(0x00) )
+pp.pprint( mySPI(1).write(HIGH) )
+#pp.pprint( mySPI(1).write(capture) )
+pp.pprint( mySPI(1).write(LOW) )
+#pp.pprint( mySPI(1).writeByte(0xFF ) )

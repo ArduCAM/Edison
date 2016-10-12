@@ -73,9 +73,9 @@
 
 
 /*
-Function: 		BBBCAM
+Function: 		EDISONCAM
 Param: 				camera model
-Description :	BeagleBone Black Camera Instantiation,
+Description :	Intel EDISON Camera Instantiation,
 							Initialize the Camera structure,
 							Initialize the SPI and I2C ports
 */

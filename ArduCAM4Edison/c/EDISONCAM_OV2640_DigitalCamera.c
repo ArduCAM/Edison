@@ -35,7 +35,9 @@ void setup()
   temp = read_reg(ARDUCHIP_TEST1);
   if(temp != 0x55)
   {
-  	printf("SPI interface Error!\n");
+  	printf("SPI interface Error! temp Not 0x55\n");
+    printf("temp: " + temp);
+    printf("\n");
   	while(1);
   }
 
