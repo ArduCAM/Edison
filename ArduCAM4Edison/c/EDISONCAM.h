@@ -213,8 +213,8 @@ int spi0;
 static const char *spidev0 = "/dev/spidev5.1";
 static uint8_t mode=0;
 static uint8_t bits = 8;
-static uint16_t delay;
-static uint32_t speed = 1000000;
+static uint16_t delay ;
+static uint32_t speed = 4000000;
 
 int ArduCAM(uint8_t model);
 void InitCAM();

@@ -69,7 +69,8 @@
 #include <time.h>
 #include <linux/i2c-dev.h>
 #include <linux/i2c-dev.h>
-
+#include "mraa.h"
+#include <unistd.h>
 
 
 /*

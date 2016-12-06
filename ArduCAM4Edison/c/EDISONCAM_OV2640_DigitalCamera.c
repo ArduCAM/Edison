@@ -17,8 +17,6 @@
 #define BOOL int
 #define TRUE 1
 #define FALSE 0
-
-
 #define OV2640_CHIPID_HIGH 	0x0A
 #define OV2640_CHIPID_LOW 	0x0B
 
@@ -41,9 +39,6 @@ void setup()
   	while(1);
   }
 
-  //Change MCU mode
-  write_reg(ARDUCHIP_MODE, 0x00);
-
   //Check if the camera module type is OV2640
   rdSensorReg8_8(OV2640_CHIPID_HIGH, &vid);
   printf("vid is : %x",vid);
@@ -55,55 +50,28 @@ void setup()
   	printf("OV2640 detected\n");
 
   //Change to BMP capture mode and initialize the OV2640 module
-  set_format(BMP);
-
+  set_format(JPEG);
   InitCAM();
+  OV2640_set_JPEG_size(OV2640_640x480);
+  sleep(1);
 }
 
 int main(void)
 {
 	int nmemb = 1;
-	BOOL isShowFlag = TRUE;
 	setup();
-
 	while(1)
 	{
+	    
 		uint8_t buf[256];
 		static int i = 0;
 		static int k = 0;
 		static int n = 0;
 		uint8_t temp,temp_last;
 		uint8_t start_capture = 0;
-
-		//Wait trigger from shutter buttom
-		if(read_reg(ARDUCHIP_TRIG) & SHUTTER_MASK)
-		{
-			isShowFlag = FALSE;
-			write_reg(ARDUCHIP_MODE, 0x00);
-			set_format(JPEG);
-			InitCAM();
-
-			OV2640_set_JPEG_size(OV2640_640x480);
-			//OV2640_set_JPEG_size(OV2640_1600x1200);
-			//Wait until buttom released
-			while(read_reg(ARDUCHIP_TRIG) & SHUTTER_MASK);
-			sleep(1);
-			start_capture = 1;
-		}
-		else
-		{
-			if(isShowFlag )
-			{
-				temp = read_reg(ARDUCHIP_TRIG);
-
-				if(!(temp & VSYNC_MASK))				 			//New Frame is coming
-				{
-					write_reg(ARDUCHIP_MODE, 0x00);    		//Switch to MCU
-					write_reg(ARDUCHIP_MODE, 0x01);    		//Switch to CAM
-					while(!(read_reg(ARDUCHIP_TRIG)&0x01)); 	//Wait for VSYNC is gone
-				}
-			}
-		}
+		
+    sleep(3);
+		start_capture = 1;
 		if(start_capture)
 		{
 			//Flush the FIFO
@@ -115,15 +83,14 @@ int main(void)
 			printf("Start Capture\n");
 		}
 
-		if(read_reg(ARDUCHIP_TRIG) & CAP_DONE_MASK)
-		{
-
+	while (!(read_reg(ARDUCHIP_TRIG) & CAP_DONE_MASK));
 			printf("Capture Done!\n");
-
+			
 			//Construct a file name
 			memset(filePath,0,20);
 			strcat(filePath,"/home/");
 			getnowtime();
+			printf("Saving the picture!\n");
 			strcat(filePath,nowtime);
 			strcat(filePath,".jpg");
 			//Open the new file
@@ -138,7 +105,6 @@ int main(void)
 			temp = read_fifo();
 			//Write first image data to buffer
 			buf[i++] = temp;
-
 			//Read JPEG data from FIFO
 			while( (temp != 0xD9) | (temp_last != 0xFF) )
 			{
@@ -158,18 +124,15 @@ int main(void)
 			//Write the remain uint8_ts in the buffer
 			if(i > 0)
 				fwrite(buf,i,nmemb,fp);
+			    
 
 			//Close the file
 			fclose(fp);
-
+			printf("Picture save OK !\n");
 			//Clear the capture done flag
 			clear_fifo_flag();
 			//Clear the start capture flag
 			start_capture = 0;
 
-			set_format(BMP);
-			InitCAM();
-			isShowFlag = TRUE;
-		}
 	}
 }
